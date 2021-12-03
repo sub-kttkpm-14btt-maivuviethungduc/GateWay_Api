@@ -1,9 +1,8 @@
 server:
-  port: 9191
-
+  port: ${PORT:6969}
 spring:
   application:
-    name: API-GATEWAY
+    name: GATEWAY-SERVICE
 
   cloud:
     gateway:
@@ -11,18 +10,11 @@ spring:
         - id: CUSTOMER-SERVICE
           uri: lb://CUSTOMER-SERVICE
           predicates:
-            - Path=/customer/**
-        - id: ORDERS-SERVICE
-          uri: lb://ORDERS-SERVICE
+            - Path=/customers/**
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
           predicates:
             - Path=/orders/**
-eureka:
-  client:
-    register-with-eureka:
-      value: true
-    fetch-registry:
-      value: true;
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-    instance:
-      hostname: localhost
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
